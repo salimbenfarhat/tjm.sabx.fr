@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* Couleurs et polices principales */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted: #f4f4f5;
+  --border: #e4e4e7;
+  --font-sans: 'Sora', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+    --muted: #18181b;
+    --border: #333333;
+  }
+}
+
+/* Définir les variables comme tokens Tailwind */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-sans);
+}
+
+/* Style de base */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Composants de design system */
+@layer components {
+  .btn {
+    @apply bg-black text-white px-4 py-2 rounded-md text-sm hover:opacity-90 transition;
+  }
+
+  .input {
+    @apply border border-zinc-300 rounded-md px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-black;
+  }
+
+  .card {
+    @apply bg-zinc-100 dark:bg-zinc-900 p-6 rounded-xl shadow-sm;
+  }
+
+  .container {
+    @apply max-w-xl mx-auto px-4;
+  }
+
+  .header {
+    @apply text-2xl font-bold mb-4;
+  }
+}
+  
