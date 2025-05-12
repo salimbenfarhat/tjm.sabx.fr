@@ -5,8 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { sendEmail } from "@/lib/email";
 import { nextCookies } from "better-auth/next-js";
 import { magicLink } from "better-auth/plugins";
-
-
+import type { User } from "@prisma/client"
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -63,6 +62,26 @@ export const auth = betterAuth({
 
   magicLink: {
     enabled: true,
+  },
+
+  overrides: {
+    session: {
+      async getSession({ user }: { user: User }) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: {
+            id: true,
+            email: true,
+            isPremium: true,
+            name: true,
+            image: true,
+          },
+        });
+
+        if (!dbUser) return null;
+        return { user: dbUser };
+      },
+    },
   },
 
   smtp: {
