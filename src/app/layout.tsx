@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import { Sora } from "next/font/google";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Hero />
         <main className="container min-h-screen py-8">{children}</main>
         <Footer />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

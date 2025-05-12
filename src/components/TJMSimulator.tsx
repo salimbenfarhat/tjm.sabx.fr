@@ -97,7 +97,7 @@ export default function TJMSimulator() {
             {isLimited && (
               <>
                 <br />
-                <a href="/login" className="underline">
+                <a href="/connexion" className="underline">
                   Connecte-toi
                 </a>{" "}
                 ou{" "}

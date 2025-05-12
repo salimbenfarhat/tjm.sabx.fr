@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { parse } from "cookie";
+import { guestUsageSchema } from "@/lib/validators/guest";
 
 export async function POST(req: NextRequest) {
   const cookies = parse(req.headers.get("cookie") || "");
@@ -15,6 +16,16 @@ export async function POST(req: NextRequest) {
 
   const forwardedFor = req.headers.get("x-forwarded-for");
   const ip = forwardedFor?.split(",")[0] ?? "unknown";
+
+  const validation = guestUsageSchema.safeParse({ guestId, ip });
+
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: validation.error.errors[0]?.message || "Données invalides" },
+      { status: 400 }
+    );
+  }
+  
   const today = new Date().toISOString().split("T")[0];
 
   const existing = await prisma.guestUsage.findFirst({
